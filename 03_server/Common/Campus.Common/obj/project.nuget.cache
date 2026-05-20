@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "3zH0vPkcDUQ=",
+  "success": true,
+  "projectFilePath": "E:\\kmccXM\\03_server\\Common\\Campus.Common\\Campus.Common.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\27548\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\9.0.6\\microsoft.aspnetcore.cryptography.internal.9.0.6.nupkg.sha512",
+    "C:\\Users\\27548\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\9.0.6\\microsoft.aspnetcore.cryptography.keyderivation.9.0.6.nupkg.sha512"
+  ],
+  "logs": []
+}

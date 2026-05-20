@@ -1,0 +1,15 @@
+E:\kmccXM\03_server\Common\Campus.Infrastructure\obj\Debug\net10.0\Campus.Infrastructure.csproj.AssemblyReference.cache
+E:\kmccXM\03_server\Common\Campus.Infrastructure\obj\Debug\net10.0\Campus.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+E:\kmccXM\03_server\Common\Campus.Infrastructure\obj\Debug\net10.0\Campus.Infrastructure.AssemblyInfoInputs.cache
+E:\kmccXM\03_server\Common\Campus.Infrastructure\obj\Debug\net10.0\Campus.Infrastructure.AssemblyInfo.cs
+E:\kmccXM\03_server\Common\Campus.Infrastructure\obj\Debug\net10.0\Campus.Infrastructure.csproj.CoreCompileInputs.cache
+E:\kmccXM\03_server\Common\Campus.Infrastructure\bin\Debug\net10.0\Campus.Infrastructure.deps.json
+E:\kmccXM\03_server\Common\Campus.Infrastructure\bin\Debug\net10.0\Campus.Infrastructure.dll
+E:\kmccXM\03_server\Common\Campus.Infrastructure\bin\Debug\net10.0\Campus.Infrastructure.pdb
+E:\kmccXM\03_server\Common\Campus.Infrastructure\bin\Debug\net10.0\Campus.Common.dll
+E:\kmccXM\03_server\Common\Campus.Infrastructure\bin\Debug\net10.0\Campus.Common.pdb
+E:\kmccXM\03_server\Common\Campus.Infrastructure\obj\Debug\net10.0\Campus.I.7FDE21D2.Up2Date
+E:\kmccXM\03_server\Common\Campus.Infrastructure\obj\Debug\net10.0\Campus.Infrastructure.dll
+E:\kmccXM\03_server\Common\Campus.Infrastructure\obj\Debug\net10.0\refint\Campus.Infrastructure.dll
+E:\kmccXM\03_server\Common\Campus.Infrastructure\obj\Debug\net10.0\Campus.Infrastructure.pdb
+E:\kmccXM\03_server\Common\Campus.Infrastructure\obj\Debug\net10.0\ref\Campus.Infrastructure.dll

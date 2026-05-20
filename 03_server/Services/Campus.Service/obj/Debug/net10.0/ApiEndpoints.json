@@ -1,0 +1,193 @@
+[
+  {
+    "ContainingType": "Campus.Service.Controllers.CampusController",
+    "Method": "Create",
+    "RelativePath": "api/v1/campus",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Campus.Service.Models.DTOs.CreateCampusRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Campus.Service.Controllers.CampusController",
+    "Method": "Update",
+    "RelativePath": "api/v1/campus/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "Campus.Service.Models.DTOs.UpdateCampusRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Campus.Service.Controllers.CampusController",
+    "Method": "Delete",
+    "RelativePath": "api/v1/campus/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Campus.Service.Controllers.DeliveryAreaController",
+    "Method": "Create",
+    "RelativePath": "api/v1/campus/delivery-area",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Campus.Service.Models.DTOs.CreateDeliveryZoneRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Campus.Service.Controllers.DeliveryAreaController",
+    "Method": "Update",
+    "RelativePath": "api/v1/campus/delivery-area/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "Campus.Service.Models.DTOs.UpdateDeliveryZoneRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Campus.Service.Controllers.DeliveryAreaController",
+    "Method": "Delete",
+    "RelativePath": "api/v1/campus/delivery-area/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Campus.Service.Controllers.DeliveryAreaController",
+    "Method": "GetList",
+    "RelativePath": "api/v1/campus/delivery-area/list",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "campusId",
+        "Type": "System.Nullable\u00601[[System.Int64, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Campus.Service.Controllers.DeliveryFeeController",
+    "Method": "Create",
+    "RelativePath": "api/v1/campus/delivery-fee",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Campus.Service.Models.DTOs.CreateDeliveryZoneRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Campus.Service.Controllers.DeliveryFeeController",
+    "Method": "Update",
+    "RelativePath": "api/v1/campus/delivery-fee/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "Campus.Service.Models.DTOs.UpdateDeliveryZoneRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Campus.Service.Controllers.DeliveryFeeController",
+    "Method": "GetList",
+    "RelativePath": "api/v1/campus/delivery-fee/list",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "campusId",
+        "Type": "System.Nullable\u00601[[System.Int64, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Campus.Service.Controllers.CampusController",
+    "Method": "GetList",
+    "RelativePath": "api/v1/campus/list",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "schoolId",
+        "Type": "System.Nullable\u00601[[System.Int64, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

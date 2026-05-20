@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/Common/">
+    <Project Path="Common/Campus.Common/Campus.Common.csproj" />
+    <Project Path="Common/Campus.Infrastructure/Campus.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Services/">
+    <Project Path="Services/Campus.Service/Campus.Service.csproj" />
+    <Project Path="Services/Coupon.Service/Coupon.Service.csproj" />
+    <Project Path="Services/Delivery.Service/Delivery.Service.csproj" />
+    <Project Path="Services/Merchant.Service/Merchant.Service.csproj" />
+    <Project Path="Services/Order.Service/Order.Service.csproj" />
+    <Project Path="Services/Social.Service/Social.Service.csproj" />
+    <Project Path="Services/User.Service/User.Service.csproj" />
+    <Project Path="Services/Wallet.Service/Wallet.Service.csproj" />
+  </Folder>
+</Solution>

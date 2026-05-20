@@ -1,0 +1,12 @@
+E:\kmccXM\03_server\Common\Campus.Common\bin\Debug\net10.0\Campus.Common.deps.json
+E:\kmccXM\03_server\Common\Campus.Common\bin\Debug\net10.0\Campus.Common.dll
+E:\kmccXM\03_server\Common\Campus.Common\bin\Debug\net10.0\Campus.Common.pdb
+E:\kmccXM\03_server\Common\Campus.Common\obj\Debug\net10.0\Campus.Common.csproj.AssemblyReference.cache
+E:\kmccXM\03_server\Common\Campus.Common\obj\Debug\net10.0\Campus.Common.GeneratedMSBuildEditorConfig.editorconfig
+E:\kmccXM\03_server\Common\Campus.Common\obj\Debug\net10.0\Campus.Common.AssemblyInfoInputs.cache
+E:\kmccXM\03_server\Common\Campus.Common\obj\Debug\net10.0\Campus.Common.AssemblyInfo.cs
+E:\kmccXM\03_server\Common\Campus.Common\obj\Debug\net10.0\Campus.Common.csproj.CoreCompileInputs.cache
+E:\kmccXM\03_server\Common\Campus.Common\obj\Debug\net10.0\Campus.Common.dll
+E:\kmccXM\03_server\Common\Campus.Common\obj\Debug\net10.0\refint\Campus.Common.dll
+E:\kmccXM\03_server\Common\Campus.Common\obj\Debug\net10.0\Campus.Common.pdb
+E:\kmccXM\03_server\Common\Campus.Common\obj\Debug\net10.0\ref\Campus.Common.dll

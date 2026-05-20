@@ -1,0 +1,17 @@
+{
+  "Routes": [
+    { "UpstreamPathTemplate": "/api/v1/user/{everything}", "DownstreamPathTemplate": "/api/v1/user/{everything}", "DownstreamScheme": "http", "DownstreamHostAndPorts": [{"Host": "localhost", "Port": 53222}] },
+    { "UpstreamPathTemplate": "/api/v1/auth/{everything}", "DownstreamPathTemplate": "/api/v1/auth/{everything}", "DownstreamScheme": "http", "DownstreamHostAndPorts": [{"Host": "localhost", "Port": 53222}] },
+    { "UpstreamPathTemplate": "/api/v1/address/{everything}", "DownstreamPathTemplate": "/api/v1/address/{everything}", "DownstreamScheme": "http", "DownstreamHostAndPorts": [{"Host": "localhost", "Port": 53222}] },
+    { "UpstreamPathTemplate": "/api/v1/file/{everything}", "DownstreamPathTemplate": "/api/v1/file/{everything}", "DownstreamScheme": "http", "DownstreamHostAndPorts": [{"Host": "localhost", "Port": 53222}] },
+    { "UpstreamPathTemplate": "/api/v1/merchant/{everything}", "DownstreamPathTemplate": "/api/v1/merchant/{everything}", "DownstreamScheme": "http", "DownstreamHostAndPorts": [{"Host": "localhost", "Port": 53523}] },
+    { "UpstreamPathTemplate": "/api/v1/product/{everything}", "DownstreamPathTemplate": "/api/v1/product/{everything}", "DownstreamScheme": "http", "DownstreamHostAndPorts": [{"Host": "localhost", "Port": 53523}] },
+    { "UpstreamPathTemplate": "/api/v1/order/{everything}", "DownstreamPathTemplate": "/api/v1/order/{everything}", "DownstreamScheme": "http", "DownstreamHostAndPorts": [{"Host": "localhost", "Port": 53216}] },
+    { "UpstreamPathTemplate": "/api/v1/delivery/{everything}", "DownstreamPathTemplate": "/api/v1/delivery/{everything}", "DownstreamScheme": "http", "DownstreamHostAndPorts": [{"Host": "localhost", "Port": 53221}] },
+    { "UpstreamPathTemplate": "/api/v1/campus/{everything}", "DownstreamPathTemplate": "/api/v1/campus/{everything}", "DownstreamScheme": "http", "DownstreamHostAndPorts": [{"Host": "localhost", "Port": 53211}] },
+    { "UpstreamPathTemplate": "/api/v1/social/{everything}", "DownstreamPathTemplate": "/api/v1/social/{everything}", "DownstreamScheme": "http", "DownstreamHostAndPorts": [{"Host": "localhost", "Port": 53215}] },
+    { "UpstreamPathTemplate": "/api/v1/wallet/{everything}", "DownstreamPathTemplate": "/api/v1/wallet/{everything}", "DownstreamScheme": "http", "DownstreamHostAndPorts": [{"Host": "localhost", "Port": 53224}] },
+    { "UpstreamPathTemplate": "/api/v1/coupon/{everything}", "DownstreamPathTemplate": "/api/v1/coupon/{everything}", "DownstreamScheme": "http", "DownstreamHostAndPorts": [{"Host": "localhost", "Port": 53225}] }
+  ],
+  "GlobalConfiguration": { "BaseUrl": "http://localhost:53517" }
+}

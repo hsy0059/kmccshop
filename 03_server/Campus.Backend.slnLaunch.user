@@ -1,0 +1,62 @@
+[
+  {
+    "Name": "新建配置文件",
+    "Projects": [
+      {
+        "Path": "ApiGateway\\ApiGateway.csproj",
+        "Action": "Start",
+        "DebugTarget": "ApiGateway"
+      },
+      {
+        "Path": "Common\\Campus.Common\\Campus.Common.csproj",
+        "Action": "Start",
+        "DebugTarget": "Campus.Common"
+      },
+      {
+        "Path": "Common\\Campus.Infrastructure\\Campus.Infrastructure.csproj",
+        "Action": "Start",
+        "DebugTarget": "Campus.Infrastructure"
+      },
+      {
+        "Path": "Services\\Campus.Service\\Campus.Service.csproj",
+        "Action": "Start",
+        "DebugTarget": "Campus.Service"
+      },
+      {
+        "Path": "Services\\Coupon.Service\\Coupon.Service.csproj",
+        "Action": "Start",
+        "DebugTarget": "Coupon.Service"
+      },
+      {
+        "Path": "Services\\Delivery.Service\\Delivery.Service.csproj",
+        "Action": "Start",
+        "DebugTarget": "Delivery.Service"
+      },
+      {
+        "Path": "Services\\Merchant.Service\\Merchant.Service.csproj",
+        "Action": "Start",
+        "DebugTarget": "Merchant.Service"
+      },
+      {
+        "Path": "Services\\Order.Service\\Order.Service.csproj",
+        "Action": "Start",
+        "DebugTarget": "Order.Service"
+      },
+      {
+        "Path": "Services\\Social.Service\\Social.Service.csproj",
+        "Action": "Start",
+        "DebugTarget": "Social.Service"
+      },
+      {
+        "Path": "Services\\User.Service\\User.Service.csproj",
+        "Action": "Start",
+        "DebugTarget": "User.Service"
+      },
+      {
+        "Path": "Services\\Wallet.Service\\Wallet.Service.csproj",
+        "Action": "Start",
+        "DebugTarget": "Wallet.Service"
+      }
+    ]
+  }
+]
