@@ -26,6 +26,7 @@ import { ElMessage } from 'element-plus'
 const router = useRouter()
 const store = useUserStore()
 const loading = ref(false)
+const formRef = ref()
 const form = reactive({ phone: '', password: '' })
 const rules = {
   phone: [{ required: true, message: '请输入手机号', trigger: 'blur' }],
@@ -33,6 +34,7 @@ const rules = {
 }
 
 const handleLogin = async () => {
+  try { await formRef.value?.validate() } catch { return }
   loading.value = true
   try {
     await store.login(form.phone, form.password)

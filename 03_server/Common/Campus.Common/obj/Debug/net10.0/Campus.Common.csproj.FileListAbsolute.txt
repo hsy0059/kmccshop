@@ -10,3 +10,4 @@ E:\kmccXM\03_server\Common\Campus.Common\obj\Debug\net10.0\Campus.Common.dll
 E:\kmccXM\03_server\Common\Campus.Common\obj\Debug\net10.0\refint\Campus.Common.dll
 E:\kmccXM\03_server\Common\Campus.Common\obj\Debug\net10.0\Campus.Common.pdb
 E:\kmccXM\03_server\Common\Campus.Common\obj\Debug\net10.0\ref\Campus.Common.dll
+e:\kmccXM\03_server\Common\Campus.Common\obj\Debug\net10.0\Campus.Common.sourcelink.json

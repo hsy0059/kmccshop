@@ -19,7 +19,7 @@ public class DeliveryController : ControllerBase
     [HttpGet("available")]
     public async Task<IActionResult> GetAvailable([FromQuery] PageModel page)
     {
-        var orders = await _db.Set<Dictionary<string, object>>().ToListAsync();
+        // 待接入订单微服务查询；当前返回空列表占位
         return Ok(ApiResponse<object>.Success(new { list = new List<object>(), total = 0 }));
     }
 

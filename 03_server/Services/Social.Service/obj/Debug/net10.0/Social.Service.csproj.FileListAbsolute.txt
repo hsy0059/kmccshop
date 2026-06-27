@@ -46,4 +46,4 @@ E:\kmccXM\03_server\Services\Social.Service\obj\Debug\net10.0\refint\Social.Serv
 E:\kmccXM\03_server\Services\Social.Service\obj\Debug\net10.0\Social.Service.pdb
 E:\kmccXM\03_server\Services\Social.Service\obj\Debug\net10.0\Social.Service.genruntimeconfig.cache
 E:\kmccXM\03_server\Services\Social.Service\obj\Debug\net10.0\ref\Social.Service.dll
-E:\kmccXM\03_server\Services\Social.Service\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
+e:\kmccXM\03_server\Services\Social.Service\obj\Debug\net10.0\Social.Service.sourcelink.json

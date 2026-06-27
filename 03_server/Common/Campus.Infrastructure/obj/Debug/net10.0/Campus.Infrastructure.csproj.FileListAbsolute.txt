@@ -13,3 +13,4 @@ E:\kmccXM\03_server\Common\Campus.Infrastructure\obj\Debug\net10.0\Campus.Infras
 E:\kmccXM\03_server\Common\Campus.Infrastructure\obj\Debug\net10.0\refint\Campus.Infrastructure.dll
 E:\kmccXM\03_server\Common\Campus.Infrastructure\obj\Debug\net10.0\Campus.Infrastructure.pdb
 E:\kmccXM\03_server\Common\Campus.Infrastructure\obj\Debug\net10.0\ref\Campus.Infrastructure.dll
+e:\kmccXM\03_server\Common\Campus.Infrastructure\obj\Debug\net10.0\Campus.Infrastructure.sourcelink.json

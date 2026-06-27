@@ -33,15 +33,6 @@ app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-// 从配置或环境读取可监听的 URL，支持以分号分隔多个值，避免硬编码端口冲突
-var urls = builder.Configuration["ASPNETCORE_URLS"] ?? Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
-if (!string.IsNullOrWhiteSpace(urls))
-{
-    foreach (var u in urls.Split(';', StringSplitOptions.RemoveEmptyEntries))
-    {
-        app.Urls.Add(u.Trim());
-    }
-}
-
-// 让 Kestrel 使用默认行为或由宿主/launchSettings 控制
+// 与其他服务保持一致：硬编码端口，确保 Ocelot 网关（指向 53523）可连接
+app.Urls.Add("http://0.0.0.0:53523");
 app.Run();

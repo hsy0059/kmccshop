@@ -2,7 +2,7 @@
   <el-card>
     <template #header><div class="card-header"><span>校区管理</span><el-button type="primary" size="small" @click="openCampusDialog()">新增校区</el-button></div></template>
 
-    <el-table :data="campusList" border v-loading="loading" row-key="id">
+    <el-table :data="campusList" border v-loading="loading" row-key="id" :expand-row-keys="expandedRowKeys">
       <el-table-column prop="id" label="ID" width="80" />
       <el-table-column prop="name" label="校区名称" />
       <el-table-column prop="address" label="地址" />
@@ -67,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import {
   getCampusList, createCampus, updateCampus, deleteCampus,
   getDeliveryAreaList, createDeliveryArea, updateDeliveryArea, deleteDeliveryArea
@@ -77,6 +77,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 const campusList = ref<any[]>([])
 const loading = ref(false)
 const expandedCampus = ref(0)
+const expandedRowKeys = computed(() => expandedCampus.value ? [expandedCampus.value] : [])
 const savedExpand = ref(new Map<number,any[]>())
 const areaMap = reactive<Record<number,any[]>>({})
 const areaLoading = ref(false)

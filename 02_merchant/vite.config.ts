@@ -35,6 +35,11 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true
         }
       }
+    },
+    css: {
+      preprocessorOptions: {
+        scss: { api: 'modern-compiler', silenceDeprecations: ['legacy-js-api', 'import', 'global-builtin', 'color-functions'] }
+      }
     }
   }
 })

@@ -46,4 +46,4 @@ E:\kmccXM\03_server\Services\Coupon.Service\obj\Debug\net10.0\refint\Coupon.Serv
 E:\kmccXM\03_server\Services\Coupon.Service\obj\Debug\net10.0\Coupon.Service.pdb
 E:\kmccXM\03_server\Services\Coupon.Service\obj\Debug\net10.0\Coupon.Service.genruntimeconfig.cache
 E:\kmccXM\03_server\Services\Coupon.Service\obj\Debug\net10.0\ref\Coupon.Service.dll
-E:\kmccXM\03_server\Services\Coupon.Service\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
+e:\kmccXM\03_server\Services\Coupon.Service\obj\Debug\net10.0\Coupon.Service.sourcelink.json

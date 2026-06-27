@@ -46,4 +46,4 @@ E:\kmccXM\03_server\Services\Delivery.Service\obj\Debug\net10.0\refint\Delivery.
 E:\kmccXM\03_server\Services\Delivery.Service\obj\Debug\net10.0\Delivery.Service.pdb
 E:\kmccXM\03_server\Services\Delivery.Service\obj\Debug\net10.0\Delivery.Service.genruntimeconfig.cache
 E:\kmccXM\03_server\Services\Delivery.Service\obj\Debug\net10.0\ref\Delivery.Service.dll
-E:\kmccXM\03_server\Services\Delivery.Service\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
+e:\kmccXM\03_server\Services\Delivery.Service\obj\Debug\net10.0\Delivery.Service.sourcelink.json

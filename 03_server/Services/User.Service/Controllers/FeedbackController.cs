@@ -86,6 +86,7 @@ public class Feedback
 {
     [System.ComponentModel.DataAnnotations.Key]
     public long Id { get; set; }
+    [System.ComponentModel.DataAnnotations.Schema.Column("user_id")]
     public long UserId { get; set; }
     public int Type { get; set; }
 
@@ -105,6 +106,7 @@ public class Feedback
     [System.ComponentModel.DataAnnotations.MaxLength(500)]
     public string? ReplyContent { get; set; }
 
+    [System.ComponentModel.DataAnnotations.Schema.Column("replier_id")]
     public long? ReplierId { get; set; }
     [System.ComponentModel.DataAnnotations.Schema.Column("replied_at")]
     public DateTime? RepliedAt { get; set; }

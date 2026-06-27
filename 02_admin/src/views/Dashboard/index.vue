@@ -48,10 +48,10 @@ const fetchStats = async () => {
     const [userRes, merchantRes, orderRes] = await Promise.all([
       getUserStats(), getMerchantStats(), getOrderStats()
     ])
-    stats.userCount = userRes.data?.data?.totalUsers ?? 0
-    stats.merchantCount = merchantRes.data?.data?.totalMerchants ?? 0
-    stats.todayOrders = orderRes.data?.data?.todayOrders ?? 0
-    stats.todayRevenue = orderRes.data?.data?.todayRevenue ?? 0
+    stats.userCount = userRes.data?.totalUsers ?? 0
+    stats.merchantCount = merchantRes.data?.totalMerchants ?? 0
+    stats.todayOrders = orderRes.data?.todayOrders ?? 0
+    stats.todayRevenue = orderRes.data?.todayRevenue ?? 0
   } catch (e) { /* API not available yet */ }
 }
 

@@ -10,17 +10,17 @@ public class Coupon
     [MaxLength(100)] public string Name { get; set; } = string.Empty;
     [MaxLength(255)] public string? Description { get; set; }
     public int Type { get; set; }
-    public decimal DiscountValue { get; set; }
-    public decimal MinAmount { get; set; }
-    public decimal? MaxDiscount { get; set; }
-    public int TotalCount { get; set; }
-    public int ReceivedCount { get; set; }
-    public int UsedCount { get; set; }
-    public int PerUserLimit { get; set; } = 1;
-    public long? MerchantId { get; set; }
-    public DateTime StartTime { get; set; }
-    public DateTime EndTime { get; set; }
-    public int? ValidDays { get; set; }
+    [Column("discount_value")] public decimal DiscountValue { get; set; }
+    [Column("min_amount")] public decimal MinAmount { get; set; }
+    [Column("max_discount")] public decimal? MaxDiscount { get; set; }
+    [Column("total_count")] public int TotalCount { get; set; }
+    [Column("received_count")] public int ReceivedCount { get; set; }
+    [Column("used_count")] public int UsedCount { get; set; }
+    [Column("per_user_limit")] public int PerUserLimit { get; set; } = 1;
+    [Column("merchant_id")] public long? MerchantId { get; set; }
+    [Column("start_time")] public DateTime StartTime { get; set; }
+    [Column("end_time")] public DateTime EndTime { get; set; }
+    [Column("valid_days")] public int? ValidDays { get; set; }
     public int Status { get; set; } = 1;
     [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
@@ -32,10 +32,10 @@ public class Coupon
 public class UserCoupon
 {
     [Key] public long Id { get; set; }
-    public long UserId { get; set; }
-    public long CouponId { get; set; }
+    [Column("user_id")] public long UserId { get; set; }
+    [Column("coupon_id")] public long CouponId { get; set; }
     public int Status { get; set; } = 1;
-    public long? OrderId { get; set; }
+    [Column("order_id")] public long? OrderId { get; set; }
     [Column("received_at")]
     public DateTime ReceivedAt { get; set; } = DateTime.Now;
     [Column("used_at")]

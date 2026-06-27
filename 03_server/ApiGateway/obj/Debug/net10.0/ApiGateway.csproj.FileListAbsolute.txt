@@ -38,3 +38,4 @@ E:\kmccXM\03_server\ApiGateway\obj\Debug\net10.0\refint\ApiGateway.dll
 E:\kmccXM\03_server\ApiGateway\obj\Debug\net10.0\ApiGateway.pdb
 E:\kmccXM\03_server\ApiGateway\obj\Debug\net10.0\ApiGateway.genruntimeconfig.cache
 E:\kmccXM\03_server\ApiGateway\obj\Debug\net10.0\ref\ApiGateway.dll
+e:\kmccXM\03_server\ApiGateway\obj\Debug\net10.0\ApiGateway.sourcelink.json

@@ -15,7 +15,7 @@ public class User
     [MaxLength(20)]
     public string? Phone { get; set; }
 
-    [MaxLength(255)]
+    [Column("password_hash")] [MaxLength(255)]
     public string? PasswordHash { get; set; }
 
     [MaxLength(50)]
@@ -29,31 +29,31 @@ public class User
     [MaxLength(100)]
     public string? Email { get; set; }
 
-    [MaxLength(100)]
+    [Column("wechat_openid")] [MaxLength(100)]
     public string? WechatOpenid { get; set; }
 
-    [MaxLength(100)]
+    [Column("wechat_unionid")] [MaxLength(100)]
     public string? WechatUnionid { get; set; }
 
-    public int UserType { get; set; } = 1;
+    [Column("user_type")] public int UserType { get; set; } = 1;
 
-    [MaxLength(50)]
+    [Column("student_id")] [MaxLength(50)]
     public string? StudentId { get; set; }
 
-    [MaxLength(50)]
+    [Column("real_name")] [MaxLength(50)]
     public string? RealName { get; set; }
 
-    public long? SchoolId { get; set; }
+    [Column("school_id")] public long? SchoolId { get; set; }
 
-    public long? CampusId { get; set; }
+    [Column("campus_id")] public long? CampusId { get; set; }
 
     public int Status { get; set; } = 1;
 
-    public DateTime? LastLoginAt { get; set; }
+    [Column("last_login_at")] public DateTime? LastLoginAt { get; set; }
 
     [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
-    public DateTime? UpdatedAt { get; set; }
+    [Column("updated_at")] public DateTime? UpdatedAt { get; set; }
 }
 
 [Table("role")]
@@ -82,8 +82,8 @@ public class UserRole
     [Key]
     public long Id { get; set; }
 
-    public long UserId { get; set; }
-    public long RoleId { get; set; }
+    [Column("user_id")] public long UserId { get; set; }
+    [Column("role_id")] public long RoleId { get; set; }
     [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 }
@@ -94,12 +94,12 @@ public class UserAddress
     [Key]
     public long Id { get; set; }
 
-    public long UserId { get; set; }
+    [Column("user_id")] public long UserId { get; set; }
 
-    [MaxLength(50)]
+    [Column("contact_name")] [MaxLength(50)]
     public string ContactName { get; set; } = string.Empty;
 
-    [MaxLength(20)]
+    [Column("contact_phone")] [MaxLength(20)]
     public string ContactPhone { get; set; } = string.Empty;
 
     [MaxLength(50)]
@@ -117,7 +117,7 @@ public class UserAddress
     public decimal? Longitude { get; set; }
     public decimal? Latitude { get; set; }
 
-    public int IsDefault { get; set; }
+    [Column("is_default")] public int IsDefault { get; set; }
 
     [MaxLength(50)]
     public string? Tag { get; set; }

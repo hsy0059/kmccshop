@@ -46,4 +46,4 @@ E:\kmccXM\03_server\Services\Order.Service\obj\Debug\net10.0\refint\Order.Servic
 E:\kmccXM\03_server\Services\Order.Service\obj\Debug\net10.0\Order.Service.pdb
 E:\kmccXM\03_server\Services\Order.Service\obj\Debug\net10.0\Order.Service.genruntimeconfig.cache
 E:\kmccXM\03_server\Services\Order.Service\obj\Debug\net10.0\ref\Order.Service.dll
-E:\kmccXM\03_server\Services\Order.Service\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
+e:\kmccXM\03_server\Services\Order.Service\obj\Debug\net10.0\Order.Service.sourcelink.json
