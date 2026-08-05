@@ -23,6 +23,22 @@ public class Merchant
     [Column("campus_id")] public long? CampusId { get; set; }
     public decimal? Longitude { get; set; }
     public decimal? Latitude { get; set; }
+
+    // 入驻扩展信息
+    [Column("contact_name")] [MaxLength(50)] public string? ContactName { get; set; }
+    [Column("enterprise_name")] [MaxLength(100)] public string? EnterpriseName { get; set; }
+    [Column("credit_code")] [MaxLength(50)] public string? CreditCode { get; set; }
+    [Column("legal_person")] [MaxLength(50)] public string? LegalPerson { get; set; }
+    [Column("business_category")] [MaxLength(100)] public string? BusinessCategory { get; set; }
+    [Column("business_scope")] [MaxLength(1000)] public string? BusinessScope { get; set; }
+    [Column("license_image")] [MaxLength(500)] public string? LicenseImage { get; set; }
+    [Column("id_card_front")] [MaxLength(500)] public string? IdCardFront { get; set; }
+    [Column("id_card_back")] [MaxLength(500)] public string? IdCardBack { get; set; }
+    [Column("sms_code")] [MaxLength(10)] public string? SmsCode { get; set; }
+    [Column("agreed_terms")] public bool AgreedTerms { get; set; }
+    [Column("submit_step")] public int SubmitStep { get; set; }
+    [Column("audit_remark")] [MaxLength(500)] public string? AuditRemark { get; set; }
+
     [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     [Column("updated_at")]

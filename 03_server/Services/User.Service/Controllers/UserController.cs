@@ -57,6 +57,7 @@ public class UserController : ControllerBase
     [Authorize]
     public async Task<IActionResult> GetUserList([FromQuery] PageModel page)
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权查看用户列表"));
         var query = _db.Users.AsQueryable();
 
         if (!string.IsNullOrEmpty(page.Keyword))
@@ -83,6 +84,7 @@ public class UserController : ControllerBase
     [Authorize]
     public async Task<IActionResult> UpdateUser(long id, [FromBody] AdminUpdateUserRequest request)
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权修改用户信息"));
         var user = await _db.Users.FindAsync(id);
         if (user == null) return Ok(ApiResponse.Error(404, "用户不存在"));
 
@@ -99,6 +101,7 @@ public class UserController : ControllerBase
     [Authorize]
     public async Task<IActionResult> DeleteUser(long id)
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权删除用户"));
         var user = await _db.Users.FindAsync(id);
         if (user == null) return Ok(ApiResponse.Error(404, "用户不存在"));
 
@@ -172,8 +175,10 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("stats")]
+    [Authorize]
     public async Task<IActionResult> GetStats()
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权查看统计数据"));
         var totalUsers = await _db.Users.CountAsync();
         var todayNew = await _db.Users.CountAsync(u => u.CreatedAt.Date == DateTime.Today);
         return Ok(ApiResponse<object>.Success(new { totalUsers, todayNew }));

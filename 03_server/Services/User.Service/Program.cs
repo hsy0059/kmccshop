@@ -50,6 +50,9 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+using var loggerFactory = LoggerFactory.Create(b => b.AddConsole());
+var logger = loggerFactory.CreateLogger<Program>();
+
 app.UseCors();
 app.UseStaticFiles();
 app.UseAuthentication();
@@ -57,6 +60,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 var port = args.Length > 0 ? args[0] : "53222";
+int portNumber = int.Parse(port);
+Campus.Common.PortHelper.FreePortIfNeeded(portNumber, logger);
 app.Urls.Add($"http://0.0.0.0:{port}");
 
 app.Run();

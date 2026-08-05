@@ -4,8 +4,8 @@ services:
     container_name: campus_mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: campus_platform
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
       TZ: Asia/Shanghai
     ports:
       - "3306:3306"
@@ -14,15 +14,20 @@ services:
       - ./sql/init_admin_user.sql:/docker-entrypoint-initdb.d/02_admin.sql
       - mysql_data:/var/lib/mysql
     command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:
+      - campus
 
   redis:
     image: redis:7-alpine
     container_name: campus_redis
     restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD}
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    networks:
+      - campus
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -32,9 +37,172 @@ services:
       - "5672:5672"
       - "15672:15672"
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    networks:
+      - campus
+
+  user-service:
+    image: campus/user.service
+    container_name: campus_user_service
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=mysql;Database=campus_platform;User Id=root;Password=${MYSQL_ROOT_PASSWORD};"
+      ConnectionStrings__Redis: "redis:6379,password=${REDIS_PASSWORD}"
+      Jwt__SecretKey: ${JWT_SECRET_KEY}
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      campus:
+        aliases:
+          - user.service
+
+  merchant-service:
+    image: campus/merchant.service
+    container_name: campus_merchant_service
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=mysql;Database=campus_platform;User Id=root;Password=${MYSQL_ROOT_PASSWORD};"
+      ConnectionStrings__Redis: "redis:6379,password=${REDIS_PASSWORD}"
+      Jwt__SecretKey: ${JWT_SECRET_KEY}
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      campus:
+        aliases:
+          - merchant.service
+
+  order-service:
+    image: campus/order.service
+    container_name: campus_order_service
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=mysql;Database=campus_platform;User Id=root;Password=${MYSQL_ROOT_PASSWORD};"
+      ConnectionStrings__Redis: "redis:6379,password=${REDIS_PASSWORD}"
+      Jwt__SecretKey: ${JWT_SECRET_KEY}
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      campus:
+        aliases:
+          - order.service
+
+  delivery-service:
+    image: campus/delivery.service
+    container_name: campus_delivery_service
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=mysql;Database=campus_platform;User Id=root;Password=${MYSQL_ROOT_PASSWORD};"
+      ConnectionStrings__Redis: "redis:6379,password=${REDIS_PASSWORD}"
+      Jwt__SecretKey: ${JWT_SECRET_KEY}
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      campus:
+        aliases:
+          - delivery.service
+
+  campus-service:
+    image: campus/campus.service
+    container_name: campus_campus_service
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=mysql;Database=campus_platform;User Id=root;Password=${MYSQL_ROOT_PASSWORD};"
+      ConnectionStrings__Redis: "redis:6379,password=${REDIS_PASSWORD}"
+      Jwt__SecretKey: ${JWT_SECRET_KEY}
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      campus:
+        aliases:
+          - campus.service
+
+  social-service:
+    image: campus/social.service
+    container_name: campus_social_service
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=mysql;Database=campus_platform;User Id=root;Password=${MYSQL_ROOT_PASSWORD};"
+      ConnectionStrings__Redis: "redis:6379,password=${REDIS_PASSWORD}"
+      Jwt__SecretKey: ${JWT_SECRET_KEY}
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      campus:
+        aliases:
+          - social.service
+
+  wallet-service:
+    image: campus/wallet.service
+    container_name: campus_wallet_service
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=mysql;Database=campus_platform;User Id=root;Password=${MYSQL_ROOT_PASSWORD};"
+      ConnectionStrings__Redis: "redis:6379,password=${REDIS_PASSWORD}"
+      Jwt__SecretKey: ${JWT_SECRET_KEY}
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      campus:
+        aliases:
+          - wallet.service
+
+  coupon-service:
+    image: campus/coupon.service
+    container_name: campus_coupon_service
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=mysql;Database=campus_platform;User Id=root;Password=${MYSQL_ROOT_PASSWORD};"
+      ConnectionStrings__Redis: "redis:6379,password=${REDIS_PASSWORD}"
+      Jwt__SecretKey: ${JWT_SECRET_KEY}
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      campus:
+        aliases:
+          - coupon.service
+
+  apigateway:
+    image: campus/apigateway
+    container_name: campus_apigateway
+    restart: unless-stopped
+    ports:
+      - "53517:53517"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      OCELOT_CONFIG: ocelot.docker.json
+    depends_on:
+      - user-service
+      - merchant-service
+      - order-service
+      - delivery-service
+      - campus-service
+      - social-service
+      - wallet-service
+      - coupon-service
+    networks:
+      - campus
 
 volumes:
   mysql_data:
   redis_data:
+
+networks:
+  campus:
+    driver: bridge

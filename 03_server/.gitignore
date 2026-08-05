@@ -1,0 +1,22 @@
+# 构建产物
+bin/
+obj/
+
+# IDE 配置
+.vs/
+.idea/
+*.suo
+*.user
+
+# 日志文件
+*.log
+*.err.log
+
+# 敏感配置（开发/生产环境密钥）
+appsettings.Development.json
+appsettings.Production.json
+*.env
+
+# 操作系统文件
+.DS_Store
+Thumbs.db

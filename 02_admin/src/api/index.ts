@@ -54,3 +54,12 @@ export const deleteCoupon = (id: number) => request.delete(`/v1/coupon/admin/${i
 export const getUserStats = () => request.get('/v1/user/stats')
 export const getMerchantStats = () => request.get('/v1/merchant/stats')
 export const getOrderStats = () => request.get('/v1/order/statistics')
+
+// 文件上传（支持图片 jpg/png 等）
+export const uploadFile = (file: File) => {
+  const formData = new FormData()
+  formData.append('file', file)
+  return request.post('/v1/file/upload', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  })
+}

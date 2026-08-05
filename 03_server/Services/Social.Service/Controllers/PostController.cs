@@ -12,8 +12,9 @@ namespace Social.Service.Controllers;
 public class PostController : ControllerBase
 {
     private readonly SocialDbContext _db;
+    private readonly ILogger<PostController> _logger;
 
-    public PostController(SocialDbContext db) { _db = db; }
+    public PostController(SocialDbContext db, ILogger<PostController> logger) { _db = db; _logger = logger; }
 
     [HttpGet("list")]
     public async Task<IActionResult> GetList([FromQuery] PageModel page, [FromQuery] long? categoryId)
@@ -88,8 +89,11 @@ public class PostController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Delete(long id)
     {
+        var userId = GetUserId(); if (userId == null) return Ok(ApiResponse.Error(401, "未登录"));
         var post = await _db.Posts.FindAsync(id);
         if (post == null) return Ok(ApiResponse.Error(404, "帖子不存在"));
+        if (post.UserId != userId.Value && !User.IsAdmin())
+            return Ok(ApiResponse.Error(403, "无权删除此帖子"));
         post.Status = 0;
         await _db.SaveChangesAsync();
         return Ok(ApiResponse.Success("删除成功"));
@@ -98,10 +102,12 @@ public class PostController : ControllerBase
     [HttpGet("{id:long}/comments")]
     public async Task<IActionResult> GetComments(long id, [FromQuery] PageModel page)
     {
+        _logger.LogInformation("GetComments: postId={PostId}, page={Page}, pageSize={PageSize}", id, page.Page, page.PageSize);
         var query = _db.PostComments.Where(c => c.PostId == id && c.Status == 1);
         var total = await query.CountAsync();
         var list = await query.OrderByDescending(c => c.CreatedAt)
             .Skip((page.Page - 1) * page.PageSize).Take(page.PageSize).ToListAsync();
+        _logger.LogInformation("GetComments result: postId={PostId}, total={Total}, returned={Returned}", id, total, list.Count);
         return Ok(ApiResponse<PageResult<PostComment>>.Success(PageResult<PostComment>.Of(list, total, page.Page, page.PageSize)));
     }
 
@@ -110,12 +116,15 @@ public class PostController : ControllerBase
     public async Task<IActionResult> AddComment(long id, [FromBody] PostComment comment)
     {
         var userId = GetUserId(); if (userId == null) return Ok(ApiResponse.Error(401, "未登录"));
+        _logger.LogInformation("AddComment start: postId={PostId}, userId={UserId}, content={Content}", id, userId.Value, comment.Content);
         comment.PostId = id;
         comment.UserId = userId.Value;
+        comment.Status = 1;
         _db.PostComments.Add(comment);
         var post = await _db.Posts.FindAsync(id);
         if (post != null) post.CommentCount++;
         await _db.SaveChangesAsync();
+        _logger.LogInformation("AddComment success: commentId={CommentId}, postId={PostId}, status={Status}", comment.Id, comment.PostId, comment.Status);
         return Ok(ApiResponse<PostComment>.Success(comment, "评论成功"));
     }
 

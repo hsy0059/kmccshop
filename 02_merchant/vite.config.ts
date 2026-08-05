@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
     plugins: [vue()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, 'src')
+        '@': path.resolve(import.meta.dirname, 'src')
       }
     },
     base: isAndroid ? './' : '/',

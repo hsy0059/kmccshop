@@ -50,6 +50,8 @@ public class WalletController : ControllerBase
         var wallet = await _db.UserWallets.FirstOrDefaultAsync(w => w.UserId == userId.Value);
         if (wallet == null || wallet.Balance < request.Amount)
             return Ok(ApiResponse.Error(400, "余额不足"));
+
+        var balanceBefore = wallet.Balance;
         wallet.Balance -= request.Amount;
         wallet.FrozenBalance += request.Amount;
 
@@ -61,21 +63,34 @@ public class WalletController : ControllerBase
         };
         _db.Withdraws.Add(withdraw);
 
-        _db.WalletLogs.Add(new WalletLog
+        await using var transaction = await _db.Database.BeginTransactionAsync();
+        try
         {
-            UserId = userId.Value, Type = WalletLogType.Withdraw, Amount = -request.Amount,
-            BalanceBefore = wallet.Balance + request.Amount, BalanceAfter = wallet.Balance,
-            RelatedId = withdraw.Id, RelatedType = "withdraw", Description = "发起提现"
-        });
+            await _db.SaveChangesAsync();
 
-        await _db.SaveChangesAsync();
-        return Ok(ApiResponse<Withdraw>.Success(withdraw, "提现申请已提交"));
+            _db.WalletLogs.Add(new WalletLog
+            {
+                UserId = userId.Value, Type = WalletLogType.Withdraw, Amount = -request.Amount,
+                BalanceBefore = balanceBefore, BalanceAfter = wallet.Balance,
+                RelatedId = withdraw.Id, RelatedType = "withdraw", Description = "发起提现"
+            });
+
+            await _db.SaveChangesAsync();
+            await transaction.CommitAsync();
+            return Ok(ApiResponse<Withdraw>.Success(withdraw, "提现申请已提交"));
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
 
     [HttpGet("withdraws")]
     [Authorize]
     public async Task<IActionResult> GetWithdraws([FromQuery] PageModel page)
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权查看全部提现记录"));
         var query = _db.Withdraws.AsQueryable();
         if (!string.IsNullOrEmpty(page.Keyword))
             query = query.Where(w => w.AccountInfo!.Contains(page.Keyword));
@@ -89,6 +104,7 @@ public class WalletController : ControllerBase
     [Authorize]
     public async Task<IActionResult> AuditWithdraw(long id, [FromBody] WithdrawAuditRequest request)
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权审核提现"));
         var withdraw = await _db.Withdraws.FindAsync(id);
         if (withdraw == null) return Ok(ApiResponse.Error(404, "提现记录不存在"));
         var auditorId = GetUserId();

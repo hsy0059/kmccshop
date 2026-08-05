@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
     "net10.0": {
       "FluentValidation/11.11.0": {
@@ -141,6 +141,16 @@
           "lib/net8.0/Ocelot.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "Campus.Common/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/Campus.Common.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Campus.Common.dll": {}
         }
       }
     }
@@ -335,10 +345,16 @@
         "ocelot.23.4.3.nupkg.sha512",
         "ocelot.nuspec"
       ]
+    },
+    "Campus.Common/1.0.0": {
+      "type": "project",
+      "path": "../Common/Campus.Common/Campus.Common.csproj",
+      "msbuildProject": "../Common/Campus.Common/Campus.Common.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "Campus.Common >= 1.0.0",
       "Ocelot >= 23.4.3"
     ]
   },
@@ -359,6 +375,7 @@
         "D:\\Software\\vs\\hc\\NuGetPackages"
       ],
       "configFilePaths": [
+        "E:\\kmccXM\\03_server\\NuGet.Config",
         "C:\\Users\\27548\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -369,12 +386,18 @@
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "C:\\Program Files\\dotnet\\library-packs": {},
+        "E:\\kmccXM\\03_server\\artifacts\\nuget": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "E:\\kmccXM\\03_server\\Common\\Campus.Common\\Campus.Common.csproj": {
+              "projectPath": "E:\\kmccXM\\03_server\\Common\\Campus.Common\\Campus.Common.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -387,10 +410,11 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.200"
+      "SdkAnalysisLevel": "10.0.300"
     },
     "frameworks": {
       "net10.0": {
+        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "Ocelot": {
@@ -417,7 +441,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

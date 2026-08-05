@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 using Order.Service.Data;
 using Order.Service.Models.DTOs;
 using Order.Service.Models.Entities;
@@ -20,6 +21,7 @@ public class OrderController : ControllerBase
     [Authorize]
     public async Task<IActionResult> GetList([FromQuery] PageModel page, [FromQuery] int? status)
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权查看全部订单"));
         var query = _db.DeliveryOrders.AsQueryable();
         if (!string.IsNullOrEmpty(page.Keyword))
             query = query.Where(o => o.OrderNo.Contains(page.Keyword));
@@ -45,10 +47,15 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet("{id:long}")]
+    [Authorize]
     public async Task<IActionResult> GetDetail(long id)
     {
+        var userId = GetUserId();
+        if (userId == null) return Ok(ApiResponse.Error(401, "未登录"));
         var order = await _db.DeliveryOrders.FindAsync(id);
         if (order == null) return Ok(ApiResponse.Error(404, "订单不存在"));
+        if (order.UserId != userId.Value && !User.IsAdmin() && !User.IsMerchant())
+            return Ok(ApiResponse.Error(403, "无权查看此订单"));
         var items = await _db.OrderItems.Where(i => i.OrderId == id).ToListAsync();
         return Ok(ApiResponse<object>.Success(new { order, items }));
     }
@@ -59,39 +66,80 @@ public class OrderController : ControllerBase
     {
         var userId = GetUserId();
         if (userId == null) return Ok(ApiResponse.Error(401, "未登录"));
+        if (request.Items == null || request.Items.Count == 0)
+            return Ok(ApiResponse.Error(400, "订单商品不能为空"));
+
+        // 校验商品存在性、归属、状态和库存
+        var productIds = request.Items.Select(i => i.ProductId).Distinct().ToList();
+        var products = await _db.Products
+            .Where(p => productIds.Contains(p.Id))
+            .ToListAsync();
+        var productDict = products.ToDictionary(p => p.Id);
+
+        foreach (var item in request.Items)
+        {
+            if (!productDict.TryGetValue(item.ProductId, out var product))
+                return Ok(ApiResponse.Error(400, $"商品不存在(ProductId={item.ProductId})"));
+            if (product.MerchantId != request.MerchantId)
+                return Ok(ApiResponse.Error(400, $"商品不属于该商家(ProductId={item.ProductId})"));
+            if (product.Status != 1)
+                return Ok(ApiResponse.Error(400, $"商品已下架(ProductId={item.ProductId})"));
+            if (product.Stock < item.Quantity)
+                return Ok(ApiResponse.Error(400, $"商品库存不足(ProductId={item.ProductId}, 库存={product.Stock}, 需求={item.Quantity})"));
+
+            // 使用服务端价格，防止客户端篡改
+            item.Price = product.DiscountPrice ?? product.Price;
+            item.ProductName = product.Name;
+            item.ProductImage = product.Image;
+        }
 
         var totalAmount = request.Items.Sum(i => i.Price * i.Quantity);
         var deliveryFee = 2m;
-        var orderNo = DateTime.Now.ToString("yyyyMMddHHmmss") + new Random().Next(1000, 9999);
+        var orderNo = DateTime.Now.ToString("yyyyMMddHHmmss") + RandomNumberGenerator.GetInt32(1000, 10000);
         var order = new DeliveryOrder
         {
             OrderNo = orderNo, UserId = userId.Value, MerchantId = request.MerchantId,
             AddressId = request.AddressId, TotalAmount = totalAmount, DeliveryFee = deliveryFee,
             ActualAmount = totalAmount + deliveryFee, Remark = request.Remark, Status = OrderStatus.PendingPayment
         };
-        _db.DeliveryOrders.Add(order);
-        await _db.SaveChangesAsync();
 
-        foreach (var item in request.Items)
+        await using var transaction = await _db.Database.BeginTransactionAsync();
+        try
         {
-            _db.OrderItems.Add(new OrderItem
+            _db.DeliveryOrders.Add(order);
+            await _db.SaveChangesAsync();
+
+            foreach (var item in request.Items)
             {
-                OrderId = order.Id, ProductId = item.ProductId,
-                ProductName = item.ProductName, ProductImage = item.ProductImage,
-                SpecName = item.SpecName, Price = item.Price,
-                Quantity = item.Quantity, TotalPrice = item.Price * item.Quantity
-            });
+                _db.OrderItems.Add(new OrderItem
+                {
+                    OrderId = order.Id, ProductId = item.ProductId,
+                    ProductName = item.ProductName, ProductImage = item.ProductImage,
+                    SpecName = item.SpecName, Price = item.Price,
+                    Quantity = item.Quantity, TotalPrice = item.Price * item.Quantity
+                });
+            }
+            await _db.SaveChangesAsync();
+            await transaction.CommitAsync();
+            return Ok(ApiResponse<DeliveryOrder>.Success(order, "下单成功"));
         }
-        await _db.SaveChangesAsync();
-        return Ok(ApiResponse<DeliveryOrder>.Success(order, "下单成功"));
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
 
     [HttpPost("{id:long}/cancel")]
     [Authorize]
     public async Task<IActionResult> Cancel(long id)
     {
+        var userId = GetUserId();
+        if (userId == null) return Ok(ApiResponse.Error(401, "未登录"));
         var order = await _db.DeliveryOrders.FindAsync(id);
         if (order == null) return Ok(ApiResponse.Error(404, "订单不存在"));
+        if (order.UserId != userId.Value && !User.IsAdmin() && !User.IsMerchant())
+            return Ok(ApiResponse.Error(403, "无权操作此订单"));
         if (order.Status != OrderStatus.PendingPayment && order.Status != OrderStatus.PendingAccept)
             return Ok(ApiResponse.Error(400, "当前状态不可取消"));
         order.Status = OrderStatus.Cancelled;
@@ -103,8 +151,12 @@ public class OrderController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Pay(long id)
     {
+        var userId = GetUserId();
+        if (userId == null) return Ok(ApiResponse.Error(401, "未登录"));
         var order = await _db.DeliveryOrders.FindAsync(id);
         if (order == null) return Ok(ApiResponse.Error(404, "订单不存在"));
+        if (order.UserId != userId.Value)
+            return Ok(ApiResponse.Error(403, "无权操作此订单"));
         if (order.Status != OrderStatus.PendingPayment)
             return Ok(ApiResponse.Error(400, "订单状态不正确"));
         order.Status = OrderStatus.PendingAccept;
@@ -117,8 +169,16 @@ public class OrderController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Refund(long id)
     {
+        var userId = GetUserId();
+        if (userId == null) return Ok(ApiResponse.Error(401, "未登录"));
         var order = await _db.DeliveryOrders.FindAsync(id);
         if (order == null) return Ok(ApiResponse.Error(404, "订单不存在"));
+        if (order.UserId != userId.Value && !User.IsAdmin())
+            return Ok(ApiResponse.Error(403, "无权操作此订单"));
+        if (order.Status == OrderStatus.Cancelled || order.Status == OrderStatus.PendingPayment)
+            return Ok(ApiResponse.Error(400, "当前状态不可退款"));
+        if (order.RefundStatus == 1)
+            return Ok(ApiResponse.Error(400, "已提交退款申请"));
         order.RefundStatus = 1;
         order.RefundAmount = order.ActualAmount;
         await _db.SaveChangesAsync();
@@ -129,6 +189,7 @@ public class OrderController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Export()
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权导出订单数据"));
         var orders = await _db.DeliveryOrders.OrderByDescending(o => o.CreatedAt).Take(1000).ToListAsync();
         return Ok(ApiResponse<List<DeliveryOrder>>.Success(orders));
     }
@@ -137,6 +198,7 @@ public class OrderController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Statistics()
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权查看统计数据"));
         var totalOrders = await _db.DeliveryOrders.CountAsync();
         var totalAmount = await _db.DeliveryOrders.Where(o => o.Status == OrderStatus.Completed).SumAsync(o => o.ActualAmount);
         var todayOrders = await _db.DeliveryOrders.CountAsync(o => o.CreatedAt.Date == DateTime.Today);
@@ -148,6 +210,8 @@ public class OrderController : ControllerBase
     [Authorize]
     public async Task<IActionResult> GetMerchantStats([FromQuery] long merchantId)
     {
+        if (!User.IsMerchant() && !User.IsAdmin())
+            return Ok(ApiResponse.Error(403, "仅商家可查看统计数据"));
         var today = DateTime.Today;
         var todayOrders = await _db.DeliveryOrders.CountAsync(o => o.MerchantId == merchantId && o.CreatedAt.Date == today);
         var todayRevenue = await _db.DeliveryOrders.Where(o => o.MerchantId == merchantId && o.CreatedAt.Date == today && o.Status == OrderStatus.Completed).SumAsync(o => o.ActualAmount);
@@ -160,6 +224,10 @@ public class OrderController : ControllerBase
     {
         var userId = GetUserId();
         if (userId == null) return Ok(ApiResponse.Error(401, "未登录"));
+        var order = await _db.DeliveryOrders.FindAsync(request.OrderId);
+        if (order == null) return Ok(ApiResponse.Error(404, "订单不存在"));
+        if (order.UserId != userId.Value)
+            return Ok(ApiResponse.Error(403, "无权评价此订单"));
         var comment = new OrderComment
         {
             OrderId = request.OrderId, UserId = userId.Value,
@@ -175,6 +243,8 @@ public class OrderController : ControllerBase
     [Authorize]
     public async Task<IActionResult> GetMerchantOrderList([FromQuery] PageModel page, [FromQuery] int? status, [FromQuery] long? merchantId)
     {
+        if (!User.IsMerchant() && !User.IsAdmin())
+            return Ok(ApiResponse.Error(403, "仅商家可查看订单列表"));
         var query = _db.DeliveryOrders.AsQueryable();
         if (merchantId.HasValue) query = query.Where(o => o.MerchantId == merchantId.Value);
         if (status.HasValue) query = query.Where(o => o.Status == status.Value);
@@ -189,6 +259,8 @@ public class OrderController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Accept(long id)
     {
+        if (!User.IsMerchant() && !User.IsAdmin())
+            return Ok(ApiResponse.Error(403, "仅商家可接单"));
         var order = await _db.DeliveryOrders.FindAsync(id);
         if (order == null) return Ok(ApiResponse.Error(404, "订单不存在"));
         if (order.Status != OrderStatus.PendingAccept) return Ok(ApiResponse.Error(400, "订单状态不正确"));
@@ -201,9 +273,14 @@ public class OrderController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Complete(long id)
     {
+        if (!User.IsMerchant() && !User.IsAdmin())
+            return Ok(ApiResponse.Error(403, "仅商家可完成订单"));
         var order = await _db.DeliveryOrders.FindAsync(id);
         if (order == null) return Ok(ApiResponse.Error(404, "订单不存在"));
+        if (order.Status != OrderStatus.Accepted && order.Status != OrderStatus.Delivered)
+            return Ok(ApiResponse.Error(400, "订单状态不正确"));
         order.Status = OrderStatus.Completed;
+        order.CompletedAt = DateTime.Now;
         await _db.SaveChangesAsync();
         return Ok(ApiResponse.Success("订单已完成"));
     }
@@ -228,6 +305,8 @@ public class OrderController : ControllerBase
     [Authorize]
     public async Task<IActionResult> ReplyComment(long id, [FromBody] ReplyCommentRequest request)
     {
+        if (!User.IsMerchant() && !User.IsAdmin())
+            return Ok(ApiResponse.Error(403, "仅商家可回复评论"));
         var comment = await _db.OrderComments.FindAsync(id);
         if (comment == null) return Ok(ApiResponse.Error(404, "评论不存在"));
         comment.ReplyContent = request.ReplyContent;

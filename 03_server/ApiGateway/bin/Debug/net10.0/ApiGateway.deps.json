@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v10.0": {
       "ApiGateway/1.0.0": {
         "dependencies": {
+          "Campus.Common": "1.0.0",
           "Ocelot": "23.4.3"
         },
         "runtime": {
@@ -103,6 +104,14 @@
             "fileVersion": "23.4.3.0"
           }
         }
+      },
+      "Campus.Common/1.0.0": {
+        "runtime": {
+          "Campus.Common.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -174,6 +183,11 @@
       "sha512": "sha512-rLY9u8GeyjrMKwGdzz7KQu/yXteDytP5iXwWiIMBBcJWBjiYVali0hibq0ONx+5R4z4Cn6Z0U0mS7P6sAYfuPg==",
       "path": "ocelot/23.4.3",
       "hashPath": "ocelot.23.4.3.nupkg.sha512"
+    },
+    "Campus.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

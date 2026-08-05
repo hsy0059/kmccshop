@@ -1,0 +1,15 @@
+**/bin/
+**/obj/
+**/node_modules/
+**/dist/
+**/.vs/
+**/.idea/
+**/*.log
+**/*.err
+**/TestResults/
+**/.git/
+
+# 敏感配置文件（避免密钥打入镜像层）
+**/appsettings.Development.json
+**/appsettings.Production.json
+**/.env

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 using User.Service.Data;
 using User.Service.Models.DTOs;
 using User.Service.Models.Entities;
@@ -17,12 +18,14 @@ public class AuthController : ControllerBase
     private readonly UserDbContext _db;
     private readonly IJwtService _jwt;
     private readonly RedisService _redis;
+    private readonly ILogger<AuthController> _logger;
 
-    public AuthController(UserDbContext db, IJwtService jwt, RedisService redis)
+    public AuthController(UserDbContext db, IJwtService jwt, RedisService redis, ILogger<AuthController> logger)
     {
         _db = db;
         _jwt = jwt;
         _redis = redis;
+        _logger = logger;
     }
 
     [HttpPost("password-login")]
@@ -52,10 +55,35 @@ public class AuthController : ControllerBase
     [HttpPost("send-code")]
     public async Task<IActionResult> SendCode([FromBody] SendCodeRequest request)
     {
-        var code = new Random().Next(100000, 999999).ToString();
+        // 入口日志：手机号脱敏
+        var maskedPhone = !string.IsNullOrEmpty(request.Phone) && request.Phone.Length >= 7
+            ? request.Phone[..3] + "****" + request.Phone[^4..]
+            : "***";
+        _logger.LogInformation("SendCode 入口: phone={MaskedPhone}", maskedPhone);
+
+        var code = RandomNumberGenerator.GetInt32(100000, 1000000).ToString();
         var key = $"sms:code:{request.Phone}";
+        _logger.LogInformation("SendCode 验证码已生成: phone={MaskedPhone}, code={Code}", maskedPhone, code);
+
         await _redis.SetAsync(key, code, TimeSpan.FromMinutes(5));
-        return Ok(ApiResponse<object>.Success(new { code }, "验证码发送成功"));
+        _logger.LogInformation("SendCode 验证码已写入 Redis: key={Key}, ttl=5min", key);
+
+        // TODO: 接入短信服务商（阿里云/腾讯云等），调用 SendSmsAsync(request.Phone, code)
+
+        // 环境判断：生产环境不返回验证码，仅返回发送成功提示；开发环境返回验证码便于联调
+        var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "(unset)";
+        var isDev = env == "Development";
+        _logger.LogInformation("SendCode 环境判断: env={Env}, isDev={IsDev}, willReturnCode={WillReturnCode}",
+            env, isDev, isDev);
+
+        if (isDev)
+        {
+            _logger.LogWarning("SendCode [开发环境] 响应中包含验证码: phone={MaskedPhone}, code={Code}", maskedPhone, code);
+            return Ok(ApiResponse<object>.Success(new { code }, "验证码已发送"));
+        }
+
+        _logger.LogInformation("SendCode [生产环境] 响应中不包含验证码: phone={MaskedPhone}", maskedPhone);
+        return Ok(ApiResponse<object>.Success(new { }, "验证码已发送"));
     }
 
     [HttpPost("login-by-code")]

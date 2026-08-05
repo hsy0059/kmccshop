@@ -37,5 +37,10 @@ public class UserDbContext : Campus.Infrastructure.BaseDbContext
         {
             entity.HasIndex(e => e.UserId);
         });
+
+        modelBuilder.Entity<Models.Entities.Feedback>(entity =>
+        {
+            entity.HasIndex(e => e.UserId);
+        });
     }
 }

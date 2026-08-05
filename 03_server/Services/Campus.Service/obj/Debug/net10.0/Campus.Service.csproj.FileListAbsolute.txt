@@ -47,3 +47,4 @@ E:\kmccXM\03_server\Services\Campus.Service\obj\Debug\net10.0\Campus.Service.pdb
 E:\kmccXM\03_server\Services\Campus.Service\obj\Debug\net10.0\Campus.Service.genruntimeconfig.cache
 E:\kmccXM\03_server\Services\Campus.Service\obj\Debug\net10.0\ref\Campus.Service.dll
 e:\kmccXM\03_server\Services\Campus.Service\obj\Debug\net10.0\Campus.Service.sourcelink.json
+e:\kmccXM\03_server\Services\Campus.Service\bin\Debug\net10.0\appsettings.Development.json

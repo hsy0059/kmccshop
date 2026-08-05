@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "ubjtPtybJeg=",
+  "dgSpecHash": "NP16bQAV9X4=",
   "success": true,
-  "projectFilePath": "E:\\kmccXM\\03_server\\Services\\Merchant.Service\\Merchant.Service.csproj",
+  "projectFilePath": "e:\\kmccXM\\03_server\\Services\\Merchant.Service\\Merchant.Service.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\27548\\.nuget\\packages\\campus.codeanalysis\\1.0.2\\campus.codeanalysis.1.0.2.nupkg.sha512",
     "C:\\Users\\27548\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\9.0.6\\microsoft.aspnetcore.authentication.jwtbearer.9.0.6.nupkg.sha512",
     "C:\\Users\\27548\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.6\\microsoft.entityframeworkcore.9.0.6.nupkg.sha512",
     "C:\\Users\\27548\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.6\\microsoft.entityframeworkcore.abstractions.9.0.6.nupkg.sha512",

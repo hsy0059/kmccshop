@@ -39,3 +39,7 @@ E:\kmccXM\03_server\ApiGateway\obj\Debug\net10.0\ApiGateway.pdb
 E:\kmccXM\03_server\ApiGateway\obj\Debug\net10.0\ApiGateway.genruntimeconfig.cache
 E:\kmccXM\03_server\ApiGateway\obj\Debug\net10.0\ref\ApiGateway.dll
 e:\kmccXM\03_server\ApiGateway\obj\Debug\net10.0\ApiGateway.sourcelink.json
+e:\kmccXM\03_server\ApiGateway\bin\Debug\net10.0\ocelot.docker.json
+e:\kmccXM\03_server\ApiGateway\bin\Debug\net10.0\Campus.Common.dll
+e:\kmccXM\03_server\ApiGateway\bin\Debug\net10.0\Campus.Common.pdb
+E:\kmccXM\03_server\ApiGateway\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

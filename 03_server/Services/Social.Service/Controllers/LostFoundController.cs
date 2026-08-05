@@ -54,8 +54,11 @@ public class LostFoundController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Delete(long id)
     {
+        var userId = GetUserId(); if (userId == null) return Ok(ApiResponse.Error(401, "未登录"));
         var lf = await _db.LostFounds.FindAsync(id);
         if (lf == null) return Ok(ApiResponse.Error(404, "不存在"));
+        if (lf.UserId != userId.Value && !User.IsAdmin())
+            return Ok(ApiResponse.Error(403, "无权删除此记录"));
         lf.Status = 0;
         await _db.SaveChangesAsync();
         return Ok(ApiResponse.Success("删除成功"));

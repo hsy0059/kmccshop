@@ -22,8 +22,8 @@
           <span class="stat-label">商品总数</span>
         </div>
       </div>
-      <div class="stat-card primary">
-        <el-icon class="stat-icon" color="#409EFF"><Star /></el-icon>
+      <div class="stat-card danger">
+        <el-icon class="stat-icon" color="#F56C6C"><Star /></el-icon>
         <div class="stat-info">
           <span class="stat-value">{{ stats.rating }}</span>
           <span class="stat-label">店铺评分</span>

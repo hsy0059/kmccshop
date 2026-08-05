@@ -1,0 +1,10 @@
+# Campus Platform EditorConfig
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files
+
+[*.cs]
+
+# CAMPUS001: [FromBody] 实体 Status 属性必须初始化为 1
+# 检测通过 [HttpPost] + [FromBody] 接收的含 Status 属性的实体类型，
+# 如果方法体中未显式设置 Status = 1，则报错。
+# 跳过 DTO 类型（Request/Dto/ViewModel/Model 后缀）和 [HttpPut] 方法。
+dotnet_diagnostic.CAMPUS001.severity = error

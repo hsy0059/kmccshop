@@ -85,6 +85,7 @@ public class CouponController : ControllerBase
     [Authorize]
     public async Task<IActionResult> AdminList([FromQuery] PageModel page)
     {
+        if (!User.IsAdmin() && !User.IsMerchant()) return Ok(ApiResponse.Error(403, "无权操作"));
         var query = _db.Coupons.AsQueryable();
         if (!string.IsNullOrEmpty(page.Keyword))
             query = query.Where(c => c.Name.Contains(page.Keyword));
@@ -98,12 +99,22 @@ public class CouponController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Create([FromBody] CreateCouponRequest request)
     {
+        if (!User.IsAdmin() && !User.IsMerchant()) return Ok(ApiResponse.Error(403, "无权操作"));
+        long? merchantId = request.MerchantId;
+        if (!User.IsAdmin())
+        {
+            var userId = GetUserId();
+            if (userId == null) return Ok(ApiResponse.Error(401, "未登录"));
+            var merchant = await _db.MerchantInfos.FirstOrDefaultAsync(m => m.UserId == userId.Value);
+            if (merchant == null) return Ok(ApiResponse.Error(403, "未找到商家信息"));
+            merchantId = merchant.Id;
+        }
         var coupon = new Models.Entities.Coupon
         {
             Name = request.Name, Description = request.Description, Type = request.Type,
             DiscountValue = request.DiscountValue, MinAmount = request.MinAmount,
             MaxDiscount = request.MaxDiscount, TotalCount = request.TotalCount,
-            PerUserLimit = request.PerUserLimit, MerchantId = request.MerchantId,
+            PerUserLimit = request.PerUserLimit, MerchantId = merchantId,
             StartTime = request.StartTime, EndTime = request.EndTime, ValidDays = request.ValidDays
         };
         _db.Coupons.Add(coupon);
@@ -115,8 +126,17 @@ public class CouponController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Update(long id, [FromBody] UpdateCouponRequest request)
     {
+        if (!User.IsAdmin() && !User.IsMerchant()) return Ok(ApiResponse.Error(403, "无权操作"));
         var coupon = await _db.Coupons.FindAsync(id);
         if (coupon == null) return Ok(ApiResponse.Error(404, "优惠券不存在"));
+        if (!User.IsAdmin())
+        {
+            var userId = GetUserId();
+            if (userId == null) return Ok(ApiResponse.Error(401, "未登录"));
+            var merchant = await _db.MerchantInfos.FirstOrDefaultAsync(m => m.UserId == userId.Value);
+            if (merchant == null || coupon.MerchantId != merchant.Id)
+                return Ok(ApiResponse.Error(403, "无权操作此优惠券"));
+        }
         if (request.Name != null) coupon.Name = request.Name;
         if (request.Description != null) coupon.Description = request.Description;
         if (request.DiscountValue.HasValue) coupon.DiscountValue = request.DiscountValue.Value;
@@ -135,8 +155,17 @@ public class CouponController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Delete(long id)
     {
+        if (!User.IsAdmin() && !User.IsMerchant()) return Ok(ApiResponse.Error(403, "无权操作"));
         var coupon = await _db.Coupons.FindAsync(id);
         if (coupon == null) return Ok(ApiResponse.Error(404, "优惠券不存在"));
+        if (!User.IsAdmin())
+        {
+            var userId = GetUserId();
+            if (userId == null) return Ok(ApiResponse.Error(401, "未登录"));
+            var merchant = await _db.MerchantInfos.FirstOrDefaultAsync(m => m.UserId == userId.Value);
+            if (merchant == null || coupon.MerchantId != merchant.Id)
+                return Ok(ApiResponse.Error(403, "无权操作此优惠券"));
+        }
         coupon.Status = 0;
         await _db.SaveChangesAsync();
         return Ok(ApiResponse.Success("删除成功"));

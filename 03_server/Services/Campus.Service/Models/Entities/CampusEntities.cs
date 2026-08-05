@@ -8,7 +8,7 @@ public class School
 {
     [Key] public long Id { get; set; }
     [MaxLength(100)] public string Name { get; set; } = string.Empty;
-    [MaxLength(50)] public string? ShortName { get; set; }
+    [Column("short_name")] [MaxLength(50)] public string? ShortName { get; set; }
     [MaxLength(50)] public string? Province { get; set; }
     [MaxLength(50)] public string? City { get; set; }
     [MaxLength(50)] public string? District { get; set; }

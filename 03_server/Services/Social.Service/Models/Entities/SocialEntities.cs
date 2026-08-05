@@ -62,10 +62,10 @@ public class SecondGoods
     public decimal Price { get; set; }
     [Column("original_price")] public decimal? OriginalPrice { get; set; }
     [MaxLength(50)] public string? Category { get; set; }
-    [MaxLength(50)] public string? ConditionDesc { get; set; }
+    [Column("condition_desc")] [MaxLength(50)] public string? ConditionDesc { get; set; }
     [Column("view_count")] public int ViewCount { get; set; }
     [Column("favorite_count")] public int FavoriteCount { get; set; }
-    [MaxLength(100)] public string? ContactInfo { get; set; }
+    [Column("contact_info")] [MaxLength(100)] public string? ContactInfo { get; set; }
     [Column("campus_id")] public long? CampusId { get; set; }
     public int Status { get; set; } = 1;
     [Column("is_sold")] public int IsSold { get; set; }
@@ -85,7 +85,7 @@ public class LostFound
     [MaxLength(500)] public string Description { get; set; } = string.Empty;
     public string? Images { get; set; }
     [MaxLength(100)] public string? Location { get; set; }
-    [MaxLength(100)] public string? ContactInfo { get; set; }
+    [Column("contact_info")] [MaxLength(100)] public string? ContactInfo { get; set; }
     [MaxLength(50)] public string? Category { get; set; }
     [Column("campus_id")] public long? CampusId { get; set; }
     public int Status { get; set; } = 1;

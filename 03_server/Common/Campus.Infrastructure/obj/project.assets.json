@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
     "net10.0": {
       "Microsoft.AspNetCore.Cryptography.Internal/9.0.6": {
@@ -440,7 +440,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
-          "Microsoft.AspNetCore.Cryptography.KeyDerivation": "9.0.6"
+          "Microsoft.AspNetCore.Cryptography.KeyDerivation": "9.0.6",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.6"
         },
         "compile": {
           "bin/placeholder/Campus.Common.dll": {}
@@ -1144,16 +1145,17 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\kmccXM\\03_server\\Common\\Campus.Infrastructure\\Campus.Infrastructure.csproj",
+      "projectUniqueName": "e:\\kmccXM\\03_server\\Common\\Campus.Infrastructure\\Campus.Infrastructure.csproj",
       "projectName": "Campus.Infrastructure",
-      "projectPath": "E:\\kmccXM\\03_server\\Common\\Campus.Infrastructure\\Campus.Infrastructure.csproj",
+      "projectPath": "e:\\kmccXM\\03_server\\Common\\Campus.Infrastructure\\Campus.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\27548\\.nuget\\packages\\",
-      "outputPath": "E:\\kmccXM\\03_server\\Common\\Campus.Infrastructure\\obj\\",
+      "outputPath": "e:\\kmccXM\\03_server\\Common\\Campus.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Software\\vs\\hc\\NuGetPackages"
       ],
       "configFilePaths": [
+        "e:\\kmccXM\\03_server\\NuGet.Config",
         "C:\\Users\\27548\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -1164,14 +1166,16 @@
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "C:\\Program Files\\dotnet\\library-packs": {},
+        "e:\\kmccXM\\03_server\\artifacts\\nuget": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "E:\\kmccXM\\03_server\\Common\\Campus.Common\\Campus.Common.csproj": {
-              "projectPath": "E:\\kmccXM\\03_server\\Common\\Campus.Common\\Campus.Common.csproj"
+            "e:\\kmccXM\\03_server\\Common\\Campus.Common\\Campus.Common.csproj": {
+              "projectPath": "e:\\kmccXM\\03_server\\Common\\Campus.Common\\Campus.Common.csproj"
             }
           }
         }
@@ -1186,10 +1190,11 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.200"
+      "SdkAnalysisLevel": "10.0.300"
     },
     "frameworks": {
       "net10.0": {
+        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": {
@@ -1233,7 +1238,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",

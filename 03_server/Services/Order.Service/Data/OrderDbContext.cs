@@ -11,4 +11,5 @@ public class OrderDbContext : Campus.Infrastructure.BaseDbContext
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
     public DbSet<ErrandOrder> ErrandOrders => Set<ErrandOrder>();
     public DbSet<OrderComment> OrderComments => Set<OrderComment>();
+    public DbSet<Product> Products => Set<Product>();
 }

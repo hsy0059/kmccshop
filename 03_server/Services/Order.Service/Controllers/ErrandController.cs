@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 using Order.Service.Data;
 using Order.Service.Models.DTOs;
 using Order.Service.Models.Entities;
@@ -10,6 +11,7 @@ namespace Order.Service.Controllers;
 
 [ApiController]
 [Route("api/v1/order/errand")]
+[Authorize]
 public class ErrandController : ControllerBase
 {
     private readonly OrderDbContext _db;
@@ -44,7 +46,7 @@ public class ErrandController : ControllerBase
         if (string.IsNullOrEmpty(userIdClaim)) return Ok(ApiResponse.Error(401, "未登录"));
         var userId = long.Parse(userIdClaim);
 
-        var orderNo = "E" + DateTime.Now.ToString("yyyyMMddHHmmss") + new Random().Next(1000, 9999);
+        var orderNo = "E" + DateTime.Now.ToString("yyyyMMddHHmmss") + RandomNumberGenerator.GetInt32(1000, 10000);
         var order = new ErrandOrder
         {
             OrderNo = orderNo, UserId = userId,

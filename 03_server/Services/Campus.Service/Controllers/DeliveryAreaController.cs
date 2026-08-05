@@ -29,6 +29,7 @@ public class DeliveryAreaController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Create([FromBody] CreateDeliveryZoneRequest request)
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权管理配送区域"));
         var zone = new DeliveryZone
         {
             CampusId = request.CampusId, Name = request.Name,
@@ -44,6 +45,7 @@ public class DeliveryAreaController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Update(long id, [FromBody] UpdateDeliveryZoneRequest request)
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权管理配送区域"));
         var zone = await _db.DeliveryZones.FindAsync(id);
         if (zone == null) return Ok(ApiResponse.Error(404, "配送区域不存在"));
         if (request.Name != null) zone.Name = request.Name;
@@ -58,6 +60,7 @@ public class DeliveryAreaController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Delete(long id)
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权管理配送区域"));
         var zone = await _db.DeliveryZones.FindAsync(id);
         if (zone == null) return Ok(ApiResponse.Error(404, "配送区域不存在"));
         zone.Status = 0;

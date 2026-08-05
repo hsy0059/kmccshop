@@ -59,6 +59,22 @@
   },
   {
     "ContainingType": "Merchant.Service.Controllers.MerchantController",
+    "Method": "SendApplySmsCode",
+    "RelativePath": "api/v1/merchant/apply/send-sms",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Merchant.Service.Models.DTOs.SendApplySmsCodeRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Merchant.Service.Controllers.MerchantController",
     "Method": "Dashboard",
     "RelativePath": "api/v1/merchant/dashboard",
     "HttpMethod": "GET",

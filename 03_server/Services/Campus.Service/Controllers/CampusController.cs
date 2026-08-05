@@ -44,6 +44,7 @@ public class CampusController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Update(long id, [FromBody] UpdateCampusRequest request)
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权管理校区"));
         var campus = await _db.Campuses.FindAsync(id);
         if (campus == null) return Ok(ApiResponse.Error(404, "校区不存在"));
         if (request.Name != null) campus.Name = request.Name;
@@ -59,6 +60,7 @@ public class CampusController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Delete(long id)
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权管理校区"));
         var campus = await _db.Campuses.FindAsync(id);
         if (campus == null) return Ok(ApiResponse.Error(404, "校区不存在"));
         campus.Status = 0;

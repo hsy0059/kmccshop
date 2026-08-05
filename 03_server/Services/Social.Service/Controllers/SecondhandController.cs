@@ -52,8 +52,11 @@ public class SecondhandController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Delete(long id)
     {
+        var userId = GetUserId(); if (userId == null) return Ok(ApiResponse.Error(401, "未登录"));
         var goods = await _db.SecondGoods.FindAsync(id);
         if (goods == null) return Ok(ApiResponse.Error(404, "商品不存在"));
+        if (goods.UserId != userId.Value && !User.IsAdmin())
+            return Ok(ApiResponse.Error(403, "无权删除此商品"));
         goods.Status = 0;
         await _db.SaveChangesAsync();
         return Ok(ApiResponse.Success("删除成功"));

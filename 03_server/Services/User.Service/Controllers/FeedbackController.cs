@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using User.Service.Data;
 using User.Service.Models.DTOs;
+using User.Service.Models.Entities;
 using Campus.Common;
 
 namespace User.Service.Controllers;
@@ -22,7 +23,11 @@ public class FeedbackController : ControllerBase
     [Authorize]
     public async Task<IActionResult> GetFeedbackList([FromQuery] PageModel page)
     {
+        var userId = GetUserId();
+        if (userId == null) return Ok(ApiResponse.Error(401, "未登录"));
         var query = _db.Set<Feedback>().AsQueryable();
+        if (!User.IsAdmin())
+            query = query.Where(f => f.UserId == userId.Value);
 
         var total = await query.CountAsync();
         var list = await query.OrderByDescending(f => f.CreatedAt)
@@ -61,6 +66,7 @@ public class FeedbackController : ControllerBase
     [Authorize]
     public async Task<IActionResult> ReplyFeedback(long id, [FromBody] FeedbackReplyRequest request)
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权回复反馈"));
         var feedback = await _db.Set<Feedback>().FindAsync(id);
         if (feedback == null) return Ok(ApiResponse.Error(404, "反馈不存在"));
 
@@ -79,39 +85,4 @@ public class FeedbackController : ControllerBase
         if (string.IsNullOrEmpty(claim) || !long.TryParse(claim, out var id)) return null;
         return id;
     }
-}
-
-[System.ComponentModel.DataAnnotations.Schema.Table("feedback")]
-public class Feedback
-{
-    [System.ComponentModel.DataAnnotations.Key]
-    public long Id { get; set; }
-    [System.ComponentModel.DataAnnotations.Schema.Column("user_id")]
-    public long UserId { get; set; }
-    public int Type { get; set; }
-
-    [System.ComponentModel.DataAnnotations.MaxLength(100)]
-    public string Title { get; set; } = string.Empty;
-
-    [System.ComponentModel.DataAnnotations.MaxLength(500)]
-    public string Content { get; set; } = string.Empty;
-
-    public string? Images { get; set; }
-
-    [System.ComponentModel.DataAnnotations.MaxLength(100)]
-    public string? ContactInfo { get; set; }
-
-    public int Status { get; set; } = 1;
-
-    [System.ComponentModel.DataAnnotations.MaxLength(500)]
-    public string? ReplyContent { get; set; }
-
-    [System.ComponentModel.DataAnnotations.Schema.Column("replier_id")]
-    public long? ReplierId { get; set; }
-    [System.ComponentModel.DataAnnotations.Schema.Column("replied_at")]
-    public DateTime? RepliedAt { get; set; }
-    [System.ComponentModel.DataAnnotations.Schema.Column("created_at")]
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
-    [System.ComponentModel.DataAnnotations.Schema.Column("updated_at")]
-    public DateTime? UpdatedAt { get; set; }
 }

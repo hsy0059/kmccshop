@@ -28,3 +28,12 @@ export const getMerchantInfo = () => request.get('/v1/merchant/my-stats')
 export const updateMerchantInfo = (id: number, data: any) => request.put(`/v1/merchant/admin/update/${id}`, data)
 
 export const getMerchantOrderStats = (merchantId: number) => request.get('/v1/order/merchant-stats', { params: { merchantId } })
+
+// 文件上传（支持图片 jpg/png 等）
+export const uploadFile = (file: File) => {
+  const formData = new FormData()
+  formData.append('file', file)
+  return request.post('/v1/file/upload', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  })
+}

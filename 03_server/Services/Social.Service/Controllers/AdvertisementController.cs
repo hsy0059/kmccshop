@@ -41,6 +41,8 @@ public class AdvertisementController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Create([FromBody] Advertisement ad)
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权管理广告"));
+        ad.Status = 1;
         _db.Advertisements.Add(ad);
         await _db.SaveChangesAsync();
         return Ok(ApiResponse<Advertisement>.Success(ad, "创建成功"));
@@ -68,6 +70,7 @@ public class AdvertisementController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Delete(long id)
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权管理广告"));
         var ad = await _db.Advertisements.FindAsync(id);
         if (ad == null) return Ok(ApiResponse.Error(404, "广告不存在"));
         ad.Status = 0;

@@ -20,6 +20,7 @@ public class RiderAdminController : ControllerBase
     [HttpGet("list")]
     public async Task<IActionResult> GetList([FromQuery] PageModel page)
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权管理骑手"));
         var query = _db.Riders.AsQueryable();
         var total = await query.CountAsync();
         var list = await query.OrderByDescending(r => r.CreatedAt)
@@ -30,6 +31,7 @@ public class RiderAdminController : ControllerBase
     [HttpPost("approve/{id:long}")]
     public async Task<IActionResult> Approve(long id, [FromBody] RiderApproveRequest request)
     {
+        if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权审核骑手"));
         var rider = await _db.Riders.FindAsync(id);
         if (rider == null) return Ok(ApiResponse.Error(404, "骑手不存在"));
         rider.AuditStatus = request.AuditStatus;

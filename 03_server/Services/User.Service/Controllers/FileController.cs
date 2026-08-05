@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Campus.Common;
 
@@ -8,6 +9,7 @@ namespace User.Service.Controllers;
 public class FileController : ControllerBase
 {
     [HttpPost("upload")]
+    [Authorize]
     public async Task<IActionResult> Upload(IFormFile file)
     {
         if (file == null || file.Length == 0)

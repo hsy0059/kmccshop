@@ -1,7 +1,10 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
     "net10.0": {
+      "Campus.CodeAnalysis/1.0.2": {
+        "type": "package"
+      },
       "Microsoft.AspNetCore.Authentication.JwtBearer/9.0.6": {
         "type": "package",
         "dependencies": {
@@ -273,6 +276,17 @@
     }
   },
   "libraries": {
+    "Campus.CodeAnalysis/1.0.2": {
+      "sha512": "RAZ6I3eG9y4PUqc7YTMWQdPEPgCLbFG3t1ubtyK08qeteCq3q7JE3xC4s/sYbmWP9uBEraADND6bODyhFHI/fw==",
+      "type": "package",
+      "path": "campus.codeanalysis/1.0.2",
+      "files": [
+        ".nupkg.metadata",
+        "analyzers/dotnet/cs/Campus.CodeAnalysis.dll",
+        "campus.codeanalysis.1.0.2.nupkg.sha512",
+        "campus.codeanalysis.nuspec"
+      ]
+    },
     "Microsoft.AspNetCore.Authentication.JwtBearer/9.0.6": {
       "sha512": "nH1mrzr77pk+n1E5+A/0KlzkNhqy3LS3gUGEjJf0PQE6PZAc3pr8rLwUATcaJMr/12qsxHT+kcvRZMxc4bxFpA==",
       "type": "package",
@@ -613,6 +627,7 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "Campus.CodeAnalysis >= 1.0.2",
       "Campus.Common >= 1.0.0",
       "Campus.Infrastructure >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 9.0.6",
@@ -627,16 +642,17 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\kmccXM\\03_server\\Services\\Social.Service\\Social.Service.csproj",
+      "projectUniqueName": "e:\\kmccXM\\03_server\\Services\\Social.Service\\Social.Service.csproj",
       "projectName": "Social.Service",
-      "projectPath": "E:\\kmccXM\\03_server\\Services\\Social.Service\\Social.Service.csproj",
+      "projectPath": "e:\\kmccXM\\03_server\\Services\\Social.Service\\Social.Service.csproj",
       "packagesPath": "C:\\Users\\27548\\.nuget\\packages\\",
-      "outputPath": "E:\\kmccXM\\03_server\\Services\\Social.Service\\obj\\",
+      "outputPath": "e:\\kmccXM\\03_server\\Services\\Social.Service\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Software\\vs\\hc\\NuGetPackages"
       ],
       "configFilePaths": [
+        "e:\\kmccXM\\03_server\\NuGet.Config",
         "C:\\Users\\27548\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -647,17 +663,19 @@
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "C:\\Program Files\\dotnet\\library-packs": {},
+        "e:\\kmccXM\\03_server\\artifacts\\nuget": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "E:\\kmccXM\\03_server\\Common\\Campus.Common\\Campus.Common.csproj": {
-              "projectPath": "E:\\kmccXM\\03_server\\Common\\Campus.Common\\Campus.Common.csproj"
+            "e:\\kmccXM\\03_server\\Common\\Campus.Common\\Campus.Common.csproj": {
+              "projectPath": "e:\\kmccXM\\03_server\\Common\\Campus.Common\\Campus.Common.csproj"
             },
-            "E:\\kmccXM\\03_server\\Common\\Campus.Infrastructure\\Campus.Infrastructure.csproj": {
-              "projectPath": "E:\\kmccXM\\03_server\\Common\\Campus.Infrastructure\\Campus.Infrastructure.csproj"
+            "e:\\kmccXM\\03_server\\Common\\Campus.Infrastructure\\Campus.Infrastructure.csproj": {
+              "projectPath": "e:\\kmccXM\\03_server\\Common\\Campus.Infrastructure\\Campus.Infrastructure.csproj"
             }
           }
         }
@@ -672,12 +690,19 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.200"
+      "SdkAnalysisLevel": "10.0.300"
     },
     "frameworks": {
       "net10.0": {
+        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
+          "Campus.CodeAnalysis": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[1.0.2, )"
+          },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
             "version": "[9.0.6, )"
@@ -710,7 +735,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

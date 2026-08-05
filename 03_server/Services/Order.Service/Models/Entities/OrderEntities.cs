@@ -92,3 +92,19 @@ public class OrderComment
     [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 }
+
+/// <summary>
+/// 只读商品实体，用于下单时校验商品存在性、归属和价格（与 Merchant.Service 共享同一数据库）
+/// </summary>
+[Table("product")]
+public class Product
+{
+    [Key] public long Id { get; set; }
+    [Column("merchant_id")] public long MerchantId { get; set; }
+    [MaxLength(100)] public string Name { get; set; } = string.Empty;
+    [MaxLength(500)] public string? Image { get; set; }
+    public decimal Price { get; set; }
+    [Column("discount_price")] public decimal? DiscountPrice { get; set; }
+    public int Stock { get; set; }
+    public int Status { get; set; }
+}

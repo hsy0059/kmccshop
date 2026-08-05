@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Campus.Common\Campus.Common.csproj" />
+    <ProjectReference Include="..\..\Common\Campus.Infrastructure\Campus.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Services\Merchant.Service\Merchant.Service.csproj" />
+    <ProjectReference Include="..\..\Services\Order.Service\Order.Service.csproj" />
+    <ProjectReference Include="..\..\Services\Social.Service\Social.Service.csproj" />
+    <ProjectReference Include="..\..\Services\Wallet.Service\Wallet.Service.csproj" />
+  </ItemGroup>
+
+</Project>

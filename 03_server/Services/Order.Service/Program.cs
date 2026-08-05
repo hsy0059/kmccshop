@@ -29,6 +29,11 @@ builder.Services.AddCampusRedis(builder.Configuration.GetConnectionString("Redis
 builder.Services.AddCors(o => o.AddDefaultPolicy(p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
 var app = builder.Build();
+
+using var loggerFactory = LoggerFactory.Create(b => b.AddConsole());
+var logger = loggerFactory.CreateLogger<Program>();
+Campus.Common.PortHelper.FreePortIfNeeded(53216, logger);
+
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -9,4 +9,5 @@ public class CouponDbContext : Campus.Infrastructure.BaseDbContext
 
     public DbSet<Models.Entities.Coupon> Coupons => Set<Models.Entities.Coupon>();
     public DbSet<UserCoupon> UserCoupons => Set<UserCoupon>();
+    public DbSet<Models.Entities.MerchantInfo> MerchantInfos => Set<Models.Entities.MerchantInfo>();
 }

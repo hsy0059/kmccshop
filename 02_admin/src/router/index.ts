@@ -34,4 +34,16 @@ const router = createRouter({
   ]
 })
 
+// 登录守卫：未登录访问受保护页面时跳转登录页
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  if (!token && to.path !== '/login') {
+    next('/login')
+  } else if (token && to.path === '/login') {
+    next('/dashboard')
+  } else {
+    next()
+  }
+})
+
 export default router

@@ -64,8 +64,14 @@ public class ProductController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Update(long id, [FromBody] ProductUpdateRequest request)
     {
+        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdClaim)) return Ok(ApiResponse.Error(401, "未登录"));
+        var userId = long.Parse(userIdClaim);
         var product = await _db.Products.FindAsync(id);
         if (product == null) return Ok(ApiResponse.Error(404, "商品不存在"));
+        var merchant = await _db.Merchants.FirstOrDefaultAsync(m => m.UserId == userId);
+        if (merchant == null || product.MerchantId != merchant.Id)
+            if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权操作此商品"));
         if (request.Name != null) product.Name = request.Name;
         if (request.CategoryId.HasValue) product.CategoryId = request.CategoryId;
         if (request.Description != null) product.Description = request.Description;
@@ -84,8 +90,14 @@ public class ProductController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Delete(long id)
     {
+        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdClaim)) return Ok(ApiResponse.Error(401, "未登录"));
+        var userId = long.Parse(userIdClaim);
         var product = await _db.Products.FindAsync(id);
         if (product == null) return Ok(ApiResponse.Error(404, "商品不存在"));
+        var merchant = await _db.Merchants.FirstOrDefaultAsync(m => m.UserId == userId);
+        if (merchant == null || product.MerchantId != merchant.Id)
+            if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权操作此商品"));
         product.Status = 0;
         await _db.SaveChangesAsync();
         return Ok(ApiResponse.Success("删除成功"));
@@ -95,8 +107,14 @@ public class ProductController : ControllerBase
     [Authorize]
     public async Task<IActionResult> ToggleStatus(long id, [FromBody] ProductStatusRequest request)
     {
+        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdClaim)) return Ok(ApiResponse.Error(401, "未登录"));
+        var userId = long.Parse(userIdClaim);
         var product = await _db.Products.FindAsync(id);
         if (product == null) return Ok(ApiResponse.Error(404, "商品不存在"));
+        var merchant = await _db.Merchants.FirstOrDefaultAsync(m => m.UserId == userId);
+        if (merchant == null || product.MerchantId != merchant.Id)
+            if (!User.IsAdmin()) return Ok(ApiResponse.Error(403, "无权操作此商品"));
         product.Status = request.Status;
         await _db.SaveChangesAsync();
         return Ok(ApiResponse.Success("状态更新成功"));
